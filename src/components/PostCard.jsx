@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { PostContext } from "../context/PostContext";
+import "./PostCard.css";
 
 function PostCard({ search }) {
   const {
@@ -18,6 +19,9 @@ function PostCard({ search }) {
 
   const handleComment = (postId) => {
     const text = comments[postId] || "";
+
+    if (text.trim() === "") return;
+
     addComment(postId, text);
 
     setComments((prev) => ({
@@ -28,80 +32,110 @@ function PostCard({ search }) {
 
   return (
     <>
-      <h2>Total Posts: {filteredPosts.length}</h2>
+      <h2 className="total-posts">
+        Total Posts: {filteredPosts.length}
+      </h2>
 
       {filteredPosts.map((post) => (
-        <div key={post.id} className="post-card">
-          <h3>👤 {post.user}</h3>
+        <div className="post-card" key={post.id}>
+          <div className="post-header">
+            <div className="user-info">
+              <div className="avatar">
+                {post.user.charAt(0).toUpperCase()}
+              </div>
 
-          <p>{post.content}</p>
+              <div className="user-details">
+                <h3>{post.user}</h3>
+                <p>🕒 Just now</p>
+              </div>
+            </div>
+          </div>
 
-          <h4>Reaction: {post.reaction}</h4>
+          <div className="post-content">
+            {post.content}
+          </div>
 
-          <button onClick={() => changeReaction(post.id, "👍")}>👍</button>
+          <div className="post-reaction">
+            Current Reaction : {post.reaction}
+          </div>
 
-          <button onClick={() => changeReaction(post.id, "❤️")}>❤️</button>
+          <div className="reaction-box">
+            <button onClick={() => changeReaction(post.id, "👍")}>
+              👍 Like
+            </button>
 
-          <button onClick={() => changeReaction(post.id, "😂")}>😂</button>
+            <button onClick={() => changeReaction(post.id, "❤️")}>
+              ❤️ Love
+            </button>
 
-          <button onClick={() => changeReaction(post.id, "😮")}>😮</button>
+            <button onClick={() => changeReaction(post.id, "😂")}>
+              😂 Haha
+            </button>
 
-          <button onClick={() => changeReaction(post.id, "😢")}>😢</button>
+            <button onClick={() => changeReaction(post.id, "😮")}>
+              😮 Wow
+            </button>
 
-          <br /><br />
+            <button onClick={() => changeReaction(post.id, "😢")}>
+              😢 Sad
+            </button>
+          </div>
 
-          <button
-            onClick={() => deletePost(post.id)}
-            style={{
-              backgroundColor: "red",
-              color: "white",
-            }}
-          >
-            🗑 Delete
-          </button>
+          <div className="action-buttons">
+            <button
+              className="follow-btn"
+              onClick={() => toggleFollow(post.id)}
+            >
+              {post.following ? "Following" : "Follow"}
+            </button>
 
-          <button
-            onClick={() => toggleFollow(post.id)}
-            style={{
-              marginLeft: "10px",
-              backgroundColor: "green",
-              color: "white",
-            }}
-          >
-            {post.following ? "Following" : "Follow"}
-          </button>
+            <button className="share-btn">
+              🔄 Share
+            </button>
 
-          <hr />
+            <button
+              className="delete-btn"
+              onClick={() => deletePost(post.id)}
+            >
+              🗑 Delete
+            </button>
+          </div>
 
-          <input
-            type="text"
-            placeholder="Write a comment..."
-            value={comments[post.id] || ""}
-            onChange={(e) =>
-              setComments({
-                ...comments,
-                [post.id]: e.target.value,
-              })
-            }
-          />
+          <div className="comment-section">
+            <div className="comment-input">
+              <input
+                type="text"
+                placeholder="Write a comment..."
+                value={comments[post.id] || ""}
+                onChange={(e) =>
+                  setComments({
+                    ...comments,
+                    [post.id]: e.target.value,
+                  })
+                }
+              />
 
-          <button
-            onClick={() => handleComment(post.id)}
-            style={{ marginLeft: "10px" }}
-          >
-            💬 Comment
-          </button>
+              <button
+                className="comment-btn"
+                onClick={() => handleComment(post.id)}
+              >
+                💬 Comment
+              </button>
+            </div>
 
-          <div style={{ marginTop: "10px" }}>
-            <h4>Comments</h4>
-
-            {post.comments.length === 0 ? (
-              <p>No comments yet.</p>
-            ) : (
-              post.comments.map((comment, index) => (
-                <p key={index}>💬 {comment}</p>
-              ))
-            )}
+            <div className="comment-list">
+              {post.comments.length === 0 ? (
+                <div className="comment-item">
+                  <p>No comments yet.</p>
+                </div>
+              ) : (
+                post.comments.map((comment, index) => (
+                  <div className="comment-item" key={index}>
+                    <p>💬 {comment}</p>
+                  </div>
+                ))
+              )}
+            </div>
           </div>
         </div>
       ))}

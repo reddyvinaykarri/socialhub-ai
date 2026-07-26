@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import "../styles/Auth.css";
 
 function Login() {
   const navigate = useNavigate();
@@ -7,7 +8,9 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
+  const handleLogin = (e) => {
+    e.preventDefault();
+
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (!user) {
@@ -19,40 +22,42 @@ function Login() {
       alert("Login Successful!");
       navigate("/home");
     } else {
-      alert("Invalid Email or Password");
+      alert("Invalid Email or Password!");
     }
   };
 
   return (
-    <div className="auth-container">
-      <h2>Login</h2>
+    <div className="auth-page">
+      <div className="auth-card">
+        <h1>🚀 SocialHub AI</h1>
+        <p>Welcome Back</p>
 
-      <input
-        type="email"
-        placeholder="Enter Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+        <form className="auth-form" onSubmit={handleLogin}>
+          <input
+            type="email"
+            placeholder="Enter Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
 
-      <br />
-      <br />
+          <input
+            type="password"
+            placeholder="Enter Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
-      <input
-        type="password"
-        placeholder="Enter Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+          <button type="submit" className="auth-btn">
+            Login
+          </button>
+        </form>
 
-      <br />
-      <br />
-
-      <button onClick={handleLogin}>Login</button>
-
-      <p>
-        Don't have an account?{" "}
-        <Link to="/signup">Sign Up</Link>
-      </p>
+        <div className="auth-footer">
+          Don't have an account? <Link to="/signup">Sign Up</Link>
+        </div>
+      </div>
     </div>
   );
 }
