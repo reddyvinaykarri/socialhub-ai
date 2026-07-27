@@ -6,7 +6,7 @@ A modern social media web application built using **React + Vite** that allows u
 
 ## 🌐 Live Demo
 
-🔗 https://socialhub-ai-pl.vercel.app
+🔗 https://socialhub-ai-pi.vercel.app/
 
 ---
 
