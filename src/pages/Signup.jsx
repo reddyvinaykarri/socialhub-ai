@@ -10,11 +10,30 @@ function Signup() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const handleSignup = (e) => {
     e.preventDefault();
 
     if (!name || !email || !password || !confirmPassword) {
       alert("Please fill all fields.");
+      return;
+    }
+
+    // Password Validation
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!passwordRegex.test(password)) {
+      alert(
+        "Password must contain:\n\n" +
+          "• Minimum 8 characters\n" +
+          "• One uppercase letter\n" +
+          "• One lowercase letter\n" +
+          "• One number\n" +
+          "• One special character (@$!%*?&)"
+      );
       return;
     }
 
@@ -39,7 +58,7 @@ function Signup() {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <h1>🚀 SocialHub AI</h1>
+        <h1>🚀 Social Hub</h1>
         <p>Create Your Account</p>
 
         <form className="auth-form" onSubmit={handleSignup}>
@@ -59,21 +78,57 @@ function Signup() {
             required
           />
 
-          <input
-            type="password"
-            placeholder="Enter Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <div style={{ position: "relative" }}>
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Enter Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
 
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
+            <span
+              onClick={() => setShowPassword(!showPassword)}
+              style={{
+                position: "absolute",
+                right: "15px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                cursor: "pointer",
+                userSelect: "none",
+                fontSize: "18px",
+              }}
+            >
+              {showPassword ? "🙈" : "👁️"}
+            </span>
+          </div>
+
+          <div style={{ position: "relative", marginTop: "18px" }}>
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+
+            <span
+              onClick={() =>
+                setShowConfirmPassword(!showConfirmPassword)
+              }
+              style={{
+                position: "absolute",
+                right: "15px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                cursor: "pointer",
+                userSelect: "none",
+                fontSize: "18px",
+              }}
+            >
+              {showConfirmPassword ? "🙈" : "👁️"}
+            </span>
+          </div>
 
           <button type="submit" className="auth-btn">
             Sign Up

@@ -7,6 +7,7 @@ function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -29,7 +30,7 @@ function Login() {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <h1>🚀 SocialHub AI</h1>
+        <h1>🚀 Social Hub</h1>
         <p>Welcome Back</p>
 
         <form className="auth-form" onSubmit={handleLogin}>
@@ -41,13 +42,30 @@ function Login() {
             required
           />
 
-          <input
-            type="password"
-            placeholder="Enter Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <div style={{ position: "relative" }}>
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Enter Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+
+            <span
+              onClick={() => setShowPassword(!showPassword)}
+              style={{
+                position: "absolute",
+                right: "15px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                cursor: "pointer",
+                userSelect: "none",
+                fontSize: "18px",
+              }}
+            >
+              {showPassword ? "🙈" : "👁️"}
+            </span>
+          </div>
 
           <button type="submit" className="auth-btn">
             Login

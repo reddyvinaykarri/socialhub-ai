@@ -3,9 +3,12 @@ import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import CreatePost from "../components/CreatePost";
 import PostCard from "../components/PostCard";
+import Footer from "../components/Footer";
 
 function Home() {
   const [search, setSearch] = useState("");
+
+  const user = JSON.parse(localStorage.getItem("user"));
 
   return (
     <>
@@ -15,7 +18,7 @@ function Home() {
         <Sidebar />
 
         <div className="container">
-
+          {/* Dashboard Stats */}
           <div className="stats">
             <div className="card">
               <h2>👥</h2>
@@ -42,12 +45,14 @@ function Home() {
             </div>
           </div>
 
+          {/* Hero Section */}
           <div className="hero-section">
-            <h1>Welcome to SocialHub AI 🚀</h1>
+            <h1>👋 Welcome back, {user ? user.name : "User"}!</h1>
 
             <p>
-              Connect with people, create posts, search content,
-              follow users, react and comment in real time.
+              We're happy to see you again. Connect with friends,
+              create amazing posts, explore trending content,
+              and enjoy your Social Hub  experience.
             </p>
 
             <div className="hero-buttons">
@@ -56,10 +61,14 @@ function Home() {
             </div>
           </div>
 
+          {/* Create Post */}
           <CreatePost />
 
+          {/* Posts */}
           <PostCard search={search} />
 
+          {/* Footer */}
+          <Footer />
         </div>
       </div>
     </>
